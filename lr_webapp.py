@@ -39,52 +39,13 @@ def format_entry(age: int, height_cm: int, weight_kg: int, raw_sex: str, raw_smo
 
 # ------------ WEB PAGE STRUCTURE -----------------
 
-st.title('Predicción del importe de un seguro')
-
-st.markdown("""
-            ## Introducción
-            👋 Bienvenido a la aplicación web interactiva del modelo de **Regresión Lineal**
-            para predecir el **importe de tu seguro** 💵 en base a unas características.
-            
-            ⚠️ :orange[Aviso]: *Tu información no será recolectada por ninguna entidad, sólo será
-            utilizada de referencia para los parámetros de la regresión lineal.*
-            """)
-
-st.markdown("""
-            ## Contexto
-            Esta aplicación web tiene como propósito servir de **interfaz interactiva** para
-            probar los modelos de **Regresión Lineal** que he entrenado en el [trabajo de IA](https://github.com/iavalle2024/proyecto-eval-1)
-            del que proviene esta página.
-            """)
-
-st.markdown("""
-            ## Información sobre el modelo
-            Los modelos entrenados, que podrás utilizar en la página, han sido entrenados a partir de la muestra
-            de una base de datos de una empresa de seguros estadounidense. El tamaño de la muestra tomada es de **~$200$ registros**.
-
-            Los parámetros o *features* de estos modelos son:
-            - **Edad** -> `age`
-            - **IMC** ->  `bmi`
-            - **Sexo** -> `sex`
-            - **Fumador / No fumador** -> `smoker`
-            - **Hijos** -> `children`
-            """)
-
-st.markdown("""
-            ## Interacción con el modelo
-            Ahora que conoces información básica acerca de los modelos entrenados, es hora de que trastees con ellos! 🔧
-
-            Voy a clasificar los modelos por su **rendimiento**. El **rendimiento** en este caso se entiende como el **porcentaje
-            de las predicciones** del modelo (*hechas en el proceso de entrenamiento*) que se ajustan a los **valores reales**. 
-
-            Por lo tanto, los modelos disponibles son:
-            - **RL Base (Ajustado)**: :green[^78%]
-            - **RL Ridge (Ajustado)**: :orange[78%]
-            - **Rl Ridge**: :red[^75%]
-            - **RL Base**: :grey[75%]
-            """)
-
-
+charge_container = st.empty()
+charge_container.write("""
+            <style>@import url('https://fonts.googleapis.com/css2?family=Quantico&display=swap');</style>
+            <p style="font-size: 100px; font-family: 'Quantico', sans-serif; text-align: center; color: #ff0000;">0.00<span style="display: inline-block; font-size: 50px;">€</span></p>
+            <p style="font-size: 50px; font-family: 'Quantico', sans-serif; text-align: center; margin-top: -50px; color: #b70603;">0.00<span style="display: inline-block; font-size: 25px;">$</span></p>
+            """,
+            unsafe_allow_html=True)
 
 model_selection = st.selectbox(label='Versión del modelo',
                                options=models.keys())
@@ -120,13 +81,45 @@ with st.container():
     ref_button = st.button(label='¡Predecir 🔮!',
                            use_container_width=True)
 
-charge_container = st.empty()
-charge_container.write("""
-            <style>@import url('https://fonts.googleapis.com/css2?family=Quantico&display=swap');</style>
-            <p style="font-size: 100px; font-family: 'Quantico', sans-serif; text-align: center; color: #ff0000;">0.00<span style="display: inline-block; font-size: 50px;">€</span></p>
-            <p style="font-size: 50px; font-family: 'Quantico', sans-serif; text-align: center; margin-top: -50px; color: #b70603;">0.00<span style="display: inline-block; font-size: 25px;">$</span></p>
-            """,
-            unsafe_allow_html=True)
+warning_container = st.container(border=True)
+warning_container.markdown("""
+                            ⚠️ :orange[**Aviso**]: *La información que insertes dentro de los elementos de entrada
+                           no será recolectada por la aplicación. Sólo será utilizada como entrada temporal
+                           para los modelos de **Regresión Lineal***.
+                           """)
+
+st.title('Predicción del importe de un seguro')
+
+st.markdown("""
+            ## Introducción
+            Esta web proporciona una interfaz interactiva con la que puedes probar distintos modelos
+            de **Regresión Lineal** para predecir el importe del seguro de una persona con las características
+            siguientes:
+            - **Su edad**
+            - **Su IMC** (*calculado a través de la altura y peso*)
+            - **Su sexo**
+            - **Si es fumador o no**
+            - **El número de hijos que tenga**
+            """)
+
+st.markdown("""
+            ## Características de los modelos
+            He entrenado un total de **3 modelos de Regersión Lineal**. Cada uno es ligeramente diferente por
+            la forma en la que calcula la **ecuación de la regresión**.
+
+            Los 3 han sido entrenados a través de una base de datos de una **aseguradora estadounidense**.
+            Más específicamente, se han entrenado a través de una muestra de **200 registros**.
+
+            En lo que a rendimiento respecta, los 3 son **bastante similares**. Para este caso se entiende **rendimiento**
+            como el **porcentaje de las predicciones del modelo** que se ajustan a los valores reales de la muestra tomada.
+            Aún así, se podrían clasificar los modelos en orden decreciente de rendmiento de la siguiente forma:
+            1. :green[LR Ridge] -> :green[~74.94%]
+            2. :orange[LR Lasso] -> :orange[~74.72%]
+            3. :red[LR Base] -> :red[~74.72%]
+
+            Pese a que los dos últimos parecen tener rendimiento idéntico, el segundo tiene un **ajuste ligeramente mejor** de los
+            coeficientes de la regresión.
+            """)
 
 # --------------- FUNCTIONALITY ----------------
 selected_model = models[model_selection]
