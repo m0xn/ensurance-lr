@@ -1,4 +1,4 @@
-#!/home/m0xn/venvs/eval_1/venv/bin/python
+#!/home/m0xn/repos/proyecto-eval-1/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
